@@ -6,7 +6,14 @@ import Grid from "@material-ui/core/Grid";
 class GroupsIndex extends Component {
   state = {};
 
-  renderGroups = () => [1, 2, 3, 4, 5].map(num => <Group num={num} />);
+  renderGroups = () =>
+    [
+      "Master Bedroom",
+      "Dining Room",
+      "Guest Bathroom",
+      "Living Room",
+      "Kitchen"
+    ].map(name => <Group name={name} />);
 
   render() {
     return (
