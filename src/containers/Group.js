@@ -8,7 +8,9 @@ class Group extends Component {
   render() {
     return (
       <Grid item xs={12} md={6} lg={4}>
-        <Paper>I am group {this.props.num}</Paper>
+        <Paper square={true} className="light-group">
+          <h2>{this.props.name}</h2>
+        </Paper>
       </Grid>
     );
   }
