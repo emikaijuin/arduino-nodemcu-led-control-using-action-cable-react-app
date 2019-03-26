@@ -6,6 +6,11 @@
   padding: 0 16px;
   margin: 16px auto;
 }
+
+.light-group {
+  min-height: 10vh;
+}
+
 @media (min-width: 768px) {
   /* future styling */
 }
