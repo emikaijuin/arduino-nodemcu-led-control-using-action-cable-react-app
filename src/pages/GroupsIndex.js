@@ -12,7 +12,6 @@ class GroupsIndex extends Component {
       .get("http://localhost:3001/groups")
       .then(response => {
         this.setState({ ...response.data });
-        console.log(this.state);
       })
       .catch(error => {
         console.log(error);
@@ -20,7 +19,9 @@ class GroupsIndex extends Component {
   }
 
   renderGroups = () =>
-    this.state.groups.map(group => <Group name={group.name} />);
+    this.state.groups.map(group => (
+      <Group name={group.name} lights={group.lights} rgb={group.rgb_state} />
+    ));
 
   render() {
     return (
