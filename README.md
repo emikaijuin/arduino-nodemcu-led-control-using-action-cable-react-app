@@ -5,6 +5,7 @@ The lights in this project are RGB LEDs attached to Arduino (NodeMCU with ESP826
 Modifying the application to control more robust light systems such as Philipps Hue.
 Plugging into a color palette generator API to colorize your house
 Expanding the dashboard to control other types of smart devices
+
+
 Find the corresponding Arduino firmware code [here](https://github.com/emikaijuin/arduino-nodemcu-led-control-using-action-cable-firmware). 
-.
 Find the corresponding Rails server [here](https://github.com/emikaijuin/arduino-nodemcu-led-control-using-action-cable/).
