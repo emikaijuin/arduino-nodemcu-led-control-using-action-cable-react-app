@@ -2,18 +2,25 @@ import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import Group from "../containers/Group";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
 
 class GroupsIndex extends Component {
   state = {};
 
+  componentDidMount() {
+    axios
+      .get("http://localhost:3001/groups")
+      .then(response => {
+        this.setState({ ...response.data });
+        console.log(this.state);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   renderGroups = () =>
-    [
-      "Master Bedroom",
-      "Dining Room",
-      "Guest Bathroom",
-      "Living Room",
-      "Kitchen"
-    ].map(name => <Group name={name} />);
+    this.state.groups.map(group => <Group name={group.name} />);
 
   render() {
     return (
@@ -21,7 +28,7 @@ class GroupsIndex extends Component {
         <h1>My Lights</h1>
         <div className="groups-container">
           <Grid container spacing={8}>
-            {this.renderGroups()}
+            {this.state.groups ? this.renderGroups() : function() {}}
           </Grid>
         </div>
         <Button color="primary" variant="outlined">
