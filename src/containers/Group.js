@@ -3,12 +3,13 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import ColorModal from "../components/ColorModal";
 
 class Group extends Component {
-  state = {};
+  state = { showColorPicker: false };
 
   componentDidMount() {
-    this.setState({ ...this.props });
+    this.setState({ ...this.state, ...this.props });
   }
 
   renderLights = () =>
