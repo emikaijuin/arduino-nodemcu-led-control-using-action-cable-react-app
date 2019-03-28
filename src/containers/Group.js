@@ -17,21 +17,51 @@ class Group extends Component {
     ));
 
   currentRgb = () =>
-    `rgb(${this.state.rgb.r},${this.state.rgb.g},${this.state.rgb.b})`;
+    this.state.rgb
+      ? `rgb(${this.state.rgb.r},${this.state.rgb.g},${this.state.rgb.b})`
+      : "#fafafa";
+
+  setRgb = () => {
+    axios
+      .put("http://localhost:3001/groups/1", {
+        group: {
+          rgb: {
+            r: "150",
+            g: "150",
+            b: "150"
+          }
+        }
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   render() {
     console.log(this.state.rgb);
     return (
       <Grid item xs={12} md={6} lg={4}>
-        <Paper
-          square={true}
-          className="light-group"
-          style={{
-            backgroundColor: this.state.rgb ? this.currentRgb() : "#fafafa"
-          }}
-        >
+        <Paper square={true} className="light-group">
           <h2>{this.props.name}</h2>
-          <ul>{this.state.lights ? this.renderLights() : function() {}}</ul>
+          <ul style={{ overflowY: "auto" }}>
+            {this.state.lights ? this.renderLights() : function() {}}
+          </ul>
+          <div style={{ position: "absolute", right: "3%", bottom: "5%" }}>
+            <Button>off</Button>
+            <Button>on</Button>
+            <Button
+              style={{
+                color: this.currentRgb(),
+                border: `1px solid ${this.currentRgb()}`
+              }}
+              onClick={this.setRgb}
+            >
+              color
+            </Button>
+          </div>
         </Paper>
       </Grid>
     );
