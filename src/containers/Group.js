@@ -22,6 +22,20 @@ class Group extends Component {
       ? `rgb(${this.state.rgb.r},${this.state.rgb.g},${this.state.rgb.b})`
       : "#fafafa";
 
+  openColorPicker = () => {
+    this.setState({ showColorPicker: true });
+  };
+
+  closeColorPicker = () => {
+    this.setState({ showColorPicker: false });
+  };
+
+  selectColor = rgb => {
+    console.log(rgb);
+    this.setRgb(rgb);
+    this.closeColorPicker();
+  };
+
   setRgb = () => {
     axios
       .put("http://localhost:3001/groups/1", {
