@@ -76,7 +76,7 @@ class Group extends Component {
                 color: this.currentRgb(),
                 border: `1px solid ${this.currentRgb()}`
               }}
-              onClick={this.setRgb}
+              onClick={this.openColorPicker}
             >
               color
             </Button>
