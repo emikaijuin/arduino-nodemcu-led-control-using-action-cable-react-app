@@ -56,9 +56,13 @@ class Group extends Component {
   };
 
   render() {
-    console.log(this.state.rgb);
     return (
       <Grid item xs={12} md={6} lg={4}>
+        <ColorModal
+          isOpen={this.state.showColorPicker}
+          handleClose={this.closeColorPicker}
+          selectColor={this.selectColor}
+        />
         <Paper square={true} className="light-group">
           <h2>{this.props.name}</h2>
           <ul style={{ overflowY: "auto" }}>
