@@ -20,7 +20,12 @@ class GroupsIndex extends Component {
 
   renderGroups = () =>
     this.state.groups.map(group => (
-      <Group name={group.name} lights={group.lights} rgb={group.rgb_state} />
+      <Group
+        id={group.id}
+        name={group.name}
+        lights={group.lights}
+        rgb={group.rgb_state}
+      />
     ));
 
   render() {
