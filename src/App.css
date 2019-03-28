@@ -8,7 +8,8 @@
 }
 
 .light-group {
-  min-height: 10vh;
+  height: 15vh;
+  position: relative;
 }
 
 @media (min-width: 768px) {
