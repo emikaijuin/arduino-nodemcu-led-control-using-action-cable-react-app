@@ -31,24 +31,21 @@ class Group extends Component {
   };
 
   selectColor = rgb => {
-    console.log(rgb);
     this.setRgb(rgb);
     this.closeColorPicker();
   };
 
-  setRgb = () => {
+  setRgb = rgb => {
     axios
-      .put("http://localhost:3001/groups/1", {
+      .put(`http://localhost:3001/groups/${this.state.id}`, {
         group: {
           rgb: {
-            r: "150",
-            g: "150",
-            b: "150"
+            ...rgb
           }
         }
       })
       .then(result => {
-        console.log(result);
+        this.setState({ rgb: result.data.rgb });
       })
       .catch(error => {
         console.log(error);
