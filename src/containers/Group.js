@@ -66,8 +66,8 @@ class Group extends Component {
             {this.state.lights ? this.renderLights() : function() {}}
           </ul>
           <div style={{ position: "absolute", right: "3%", bottom: "5%" }}>
-            <Button>off</Button>
-            <Button>on</Button>
+            <Button variant="outlined">off</Button>
+            <Button variant="outlined">on</Button>
             <Button
               style={{
                 color: this.currentRgb(),
