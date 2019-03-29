@@ -7,13 +7,22 @@
   margin: 16px auto;
 }
 
+/* #add-group-button {
+  position: fixed;
+  bottom: 5%;
+  right: 2.5%;
+  z-index: 5;
+} */
+
 .light-group {
   height: 15vh;
   position: relative;
 }
 
-@media (min-width: 768px) {
-  /* future styling */
+@media (max-width: 991px) {
+  #add-group-button {
+    top: 2.5%;
+  }
 }
 
 @media (min-width: 992px) {
