@@ -6,14 +6,10 @@ import axios from "axios";
 import ColorModal from "../components/ColorModal";
 
 class Group extends Component {
-  state = { showColorPicker: false };
-
-  componentDidMount() {
-    this.setState({ ...this.state, ...this.props });
-  }
+  state = { showColorPicker: false, rgb: this.props.rgb };
 
   renderLights = () =>
-    this.state.lights.map(light => (
+    this.props.lights.map(light => (
       <li>{light.name ? light.name : "Unnamed"}</li>
     ));
 
