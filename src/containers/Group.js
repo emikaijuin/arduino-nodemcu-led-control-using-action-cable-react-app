@@ -33,7 +33,7 @@ class Group extends Component {
 
   setRgb = rgb => {
     axios
-      .put(`http://localhost:3001/groups/${this.state.id}`, {
+      .put(`http://localhost:3001/groups/${this.props.id}`, {
         group: {
           rgb: {
             ...rgb
