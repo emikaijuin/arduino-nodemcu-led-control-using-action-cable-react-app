@@ -38,6 +38,17 @@ class InnerGroupModal extends Component {
   render() {
     return (
       <Dialog open={this.props.isOpen}>
+        <span
+          style={{
+            position: "absolute",
+            top: "2%",
+            right: "4%",
+            cursor: "pointer"
+          }}
+          onClick={this.props.handleClose}
+        >
+          x
+        </span>
         <div style={{ padding: "10%", backgroundColor: "#fafafa" }}>
           <h3>Add Group</h3>
           <form onSubmit={this.handleSubmit}>
