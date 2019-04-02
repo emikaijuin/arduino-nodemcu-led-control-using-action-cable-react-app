@@ -58,21 +58,40 @@ class Group extends Component {
         />
         <Paper square={true} className="light-group">
           <h2>{this.props.name}</h2>
-          <ul style={{ overflowY: "auto" }}>
-            {this.state.lights ? this.renderLights() : function() {}}
+
+          <ul style={{ overflowY: "auto" }} className="lights-list">
+            {this.props.lights.length ? (
+              this.renderLights()
+            ) : (
+              <li>No Lights</li>
+            )}
           </ul>
+
           <div style={{ position: "absolute", right: "3%", bottom: "5%" }}>
-            <Button variant="outlined">off</Button>
-            <Button variant="outlined">on</Button>
-            <Button
-              style={{
-                color: this.currentRgb(),
-                border: `1px solid ${this.currentRgb()}`
-              }}
-              onClick={this.openColorPicker}
-            >
-              color
-            </Button>
+            <Grid container spacing={8}>
+              <Grid item>
+                <Button variant="outlined" disabled={!this.props.id}>
+                  off
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" disabled={!this.props.id}>
+                  on
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  style={{
+                    color: this.currentRgb(),
+                    border: `1px solid ${this.currentRgb()}`
+                  }}
+                  onClick={this.openColorPicker}
+                  disabled={!this.props.id}
+                >
+                  color
+                </Button>
+              </Grid>
+            </Grid>
           </div>
         </Paper>
       </Grid>
