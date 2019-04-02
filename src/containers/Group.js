@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ColorModal from "../components/ColorModal";
+import ColorButtons from "../components/ColorButtons";
 
 class Group extends Component {
   state = { showColorPicker: false, rgb: this.props.rgb };
@@ -67,32 +67,11 @@ class Group extends Component {
             )}
           </ul>
 
-          <div style={{ position: "absolute", right: "3%", bottom: "5%" }}>
-            <Grid container spacing={8}>
-              <Grid item>
-                <Button variant="outlined" disabled={!this.props.id}>
-                  off
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="outlined" disabled={!this.props.id}>
-                  on
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  style={{
-                    color: this.currentRgb(),
-                    border: `1px solid ${this.currentRgb()}`
-                  }}
-                  onClick={this.openColorPicker}
-                  disabled={!this.props.id}
-                >
-                  color
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
+          <ColorButtons
+            id={this.props.id}
+            rgb={this.currentRgb()}
+            openColorPicker={this.openColorPicker}
+          />
         </Paper>
       </Grid>
     );
