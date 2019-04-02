@@ -1,25 +1,12 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
+
 import Group from "../containers/Group";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 
 class GroupsIndex extends Component {
-  state = {};
-
-  componentDidMount() {
-    axios
-      .get("http://localhost:3001/groups")
-      .then(response => {
-        this.setState({ ...response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   renderGroups = () =>
-    this.state.groups.map(group => (
+    this.props.groups.map(group => (
       <Group
         id={group.id}
         name={group.name}
@@ -28,18 +15,22 @@ class GroupsIndex extends Component {
       />
     ));
 
+  ungroupedLights = () =>
+    this.props.lights.filter(light => !light.groups.length);
+
   render() {
     return (
       <div>
-        <h1>My Lights</h1>
         <div className="groups-container">
           <Grid container spacing={8}>
-            {this.state.groups ? this.renderGroups() : function() {}}
+            {this.props.groups ? this.renderGroups() : function() {}}
+            <Group
+              lights={this.props.lights ? this.ungroupedLights() : []}
+              name="Ungrouped Lights"
+              id={null}
+            />
           </Grid>
         </div>
-        <Button color="primary" variant="outlined">
-          This is a button
-        </Button>
       </div>
     );
   }
