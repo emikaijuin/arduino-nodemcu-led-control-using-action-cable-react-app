@@ -19,13 +19,27 @@
 } */
 
 .light-group {
-  height: 15vh;
+  height: 25vh;
   position: relative;
+  padding: 5%;
+}
+
+li {
+  list-style-type: none;
+  text-align: left;
+}
+
+.lights-list {
+  border: 1px solid rgba(0, 137, 123, 0.5);
+  border-radius: 15px;
+  padding: 5px 15px;
+  height: 45%;
+  overflow-y: auto;
 }
 
 @media (max-width: 991px) {
-  #add-group-button {
-    top: 2.5%;
+  .lights-list {
+    max-height: 30%;
   }
 }
 
