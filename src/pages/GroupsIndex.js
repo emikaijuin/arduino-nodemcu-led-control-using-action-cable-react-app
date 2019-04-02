@@ -15,12 +15,20 @@ class GroupsIndex extends Component {
       />
     ));
 
+  ungroupedLights = () =>
+    this.props.lights.filter(light => !light.groups.length);
+
   render() {
     return (
       <div>
         <div className="groups-container">
           <Grid container spacing={8}>
-            {this.state.groups ? this.renderGroups() : function() {}}
+            {this.props.groups ? this.renderGroups() : function() {}}
+            <Group
+              lights={this.props.lights ? this.ungroupedLights() : []}
+              name="Ungrouped Lights"
+              id={null}
+            />
           </Grid>
         </div>
       </div>
