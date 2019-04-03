@@ -70,6 +70,36 @@ class Group extends Component {
       });
   };
 
+  getCardPayload = (groupId, index) => {
+    return {
+      groupId: groupId,
+      light: this.state.lights[index]
+    };
+  };
+
+  onCardDrop = (groupId, dropResult) => {
+    console.log(dropResult);
+    if (dropResult.addedIndex != null) {
+      axios
+        .post(
+          `http://localhost:3001/lights/${
+            dropResult.payload.light.id
+          }/add_to_group`,
+          {
+            light_id: dropResult.payload.light.id,
+            group_id: groupId
+          }
+        )
+        .then(result => {
+          this.setState({ ...result.data });
+          this.props.updateUngroupedLights();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
   render() {
     return (
       <Grid item xs={12} md={6} lg={4}>
@@ -80,13 +110,28 @@ class Group extends Component {
         />
         <Paper square={true} className="light-group">
           <h2>{this.props.name}</h2>
-
           <ul style={{ overflowY: "auto" }} className="lights-list">
-            {this.props.lights.length ? (
-              this.renderLights()
-            ) : (
-              <li>No Lights</li>
-            )}
+            <Container
+              groupName="col"
+              onDrop={e => this.onCardDrop(this.props.id, e)}
+              getChildPayload={index =>
+                this.getCardPayload(this.props.id, index)
+              }
+              dragClass="drag-light"
+              dropClass="drag-light-drop"
+              dropPlaceholder={{
+                animationDuration: 150,
+                showOnTop: true,
+                className: "drop-preview"
+              }}
+              dropPlaceholderAnimationDuration={200}
+            >
+              {this.state.lights.length ? (
+                this.renderLights()
+              ) : (
+                <li>No Lights</li>
+              )}
+            </Container>
           </ul>
 
           <ColorButtons
