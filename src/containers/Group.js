@@ -4,13 +4,35 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import ColorModal from "../components/ColorModal";
 import ColorButtons from "../components/ColorButtons";
+import Light from "../components/Light";
+import { Container, Draggable } from "react-smooth-dnd";
 
 class Group extends Component {
-  state = { showColorPicker: false, rgb: this.props.rgb };
+  state = {
+    showColorPicker: false,
+    rgb: this.props.rgb,
+    lights: this.props.lights || []
+  };
+
+  componentDidMount() {
+    if (!this.props.id) {
+      return; // don't make api call for ungrouped lights group
+    }
+    axios
+      .get(`http://localhost:3001/groups/${this.props.id}`)
+      .then(result => {
+        this.setState({ ...result.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   renderLights = () =>
-    this.props.lights.map(light => (
-      <li>{light.name ? light.name : "Unnamed"}</li>
+    this.state.lights.map(light => (
+      <Draggable key={light.id}>
+        <Light name={light.name} id={light.id} />
+      </Draggable>
     ));
 
   currentRgb = () =>
