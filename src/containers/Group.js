@@ -1,16 +1,38 @@
 import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ColorModal from "../components/ColorModal";
+import ColorButtons from "../components/ColorButtons";
+import Light from "../components/Light";
+import { Container, Draggable } from "react-smooth-dnd";
 
 class Group extends Component {
-  state = { showColorPicker: false, rgb: this.props.rgb };
+  state = {
+    showColorPicker: false,
+    rgb: this.props.rgb,
+    lights: this.props.lights || []
+  };
+
+  componentDidMount() {
+    if (!this.props.id) {
+      return; // don't make api call for ungrouped lights group
+    }
+    axios
+      .get(`http://localhost:3001/groups/${this.props.id}`)
+      .then(result => {
+        this.setState({ ...result.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   renderLights = () =>
-    this.props.lights.map(light => (
-      <li>{light.name ? light.name : "Unnamed"}</li>
+    this.state.lights.map(light => (
+      <Draggable key={light.id}>
+        <Light name={light.name} id={light.id} />
+      </Draggable>
     ));
 
   currentRgb = () =>
@@ -48,6 +70,36 @@ class Group extends Component {
       });
   };
 
+  getCardPayload = (groupId, index) => {
+    return {
+      groupId: groupId,
+      light: this.state.lights[index]
+    };
+  };
+
+  onCardDrop = (groupId, dropResult) => {
+    console.log(dropResult);
+    if (dropResult.addedIndex != null) {
+      axios
+        .post(
+          `http://localhost:3001/lights/${
+            dropResult.payload.light.id
+          }/add_to_group`,
+          {
+            light_id: dropResult.payload.light.id,
+            group_id: groupId
+          }
+        )
+        .then(result => {
+          this.setState({ ...result.data });
+          this.props.updateUngroupedLights();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
+
   render() {
     return (
       <Grid item xs={12} md={6} lg={4}>
@@ -58,41 +110,35 @@ class Group extends Component {
         />
         <Paper square={true} className="light-group">
           <h2>{this.props.name}</h2>
-
           <ul style={{ overflowY: "auto" }} className="lights-list">
-            {this.props.lights.length ? (
-              this.renderLights()
-            ) : (
-              <li>No Lights</li>
-            )}
+            <Container
+              groupName="col"
+              onDrop={e => this.onCardDrop(this.props.id, e)}
+              getChildPayload={index =>
+                this.getCardPayload(this.props.id, index)
+              }
+              dragClass="drag-light"
+              dropClass="drag-light-drop"
+              dropPlaceholder={{
+                animationDuration: 150,
+                showOnTop: true,
+                className: "drop-preview"
+              }}
+              dropPlaceholderAnimationDuration={200}
+            >
+              {this.state.lights.length ? (
+                this.renderLights()
+              ) : (
+                <li>No Lights</li>
+              )}
+            </Container>
           </ul>
 
-          <div style={{ position: "absolute", right: "3%", bottom: "5%" }}>
-            <Grid container spacing={8}>
-              <Grid item>
-                <Button variant="outlined" disabled={!this.props.id}>
-                  off
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="outlined" disabled={!this.props.id}>
-                  on
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  style={{
-                    color: this.currentRgb(),
-                    border: `1px solid ${this.currentRgb()}`
-                  }}
-                  onClick={this.openColorPicker}
-                  disabled={!this.props.id}
-                >
-                  color
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
+          <ColorButtons
+            id={this.props.id}
+            rgb={this.currentRgb()}
+            openColorPicker={this.openColorPicker}
+          />
         </Paper>
       </Grid>
     );

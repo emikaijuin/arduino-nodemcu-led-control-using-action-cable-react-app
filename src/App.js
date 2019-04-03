@@ -23,11 +23,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar
-          lights={this.state.lights}
-          updateGroups={this.fetchInformation}
-        />
-        <GroupsIndex groups={this.state.groups} lights={this.state.lights} />
+        <NavBar updateGroups={this.fetchInformation} />
+        {this.state.ungroupedLights && this.state.groups ? (
+          <GroupsIndex
+            groups={this.state.groups}
+            ungroupedLights={this.state.ungroupedLights}
+            updateUngroupedLights={this.fetchInformation}
+          />
+        ) : (
+          <div>Loading</div>
+        )}
       </div>
     );
   }
