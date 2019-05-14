@@ -21,7 +21,7 @@ class InnerGroupModal extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post("http://localhost:3001/groups", {
+      .post(`${process.env.REACT_APP_DOMAIN}/groups`, {
         group: {
           name: this.state.name
         }

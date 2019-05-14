@@ -11,7 +11,7 @@ class App extends Component {
 
   fetchInformation = () => {
     axios
-      .get("http://localhost:3001/groups")
+      .get(`${process.env.REACT_APP_DOMAIN}/groups`)
       .then(result => {
         this.setState({ ...result.data });
       })

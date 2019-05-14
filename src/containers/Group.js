@@ -15,11 +15,12 @@ class Group extends Component {
   };
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_DOMAIN);
     if (!this.props.id) {
       return; // don't make api call for ungrouped lights group
     }
     axios
-      .get(`http://localhost:3001/groups/${this.props.id}`)
+      .get(`${process.env.REACT_APP_DOMAIN}/groups/${this.props.id}`)
       .then(result => {
         this.setState({ ...result.data });
       })
@@ -55,7 +56,7 @@ class Group extends Component {
 
   setRgb = rgb => {
     axios
-      .put(`http://localhost:3001/groups/${this.props.id}`, {
+      .put(`${process.env.REACT_APP_DOMAIN}/groups/${this.props.id}`, {
         group: {
           rgb: {
             ...rgb
@@ -82,7 +83,7 @@ class Group extends Component {
     if (dropResult.addedIndex != null) {
       axios
         .post(
-          `http://localhost:3001/lights/${
+          `${process.env.REACT_APP_DOMAIN}/lights/${
             dropResult.payload.light.id
           }/add_to_group`,
           {
